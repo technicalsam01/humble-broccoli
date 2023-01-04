@@ -1,29 +1,49 @@
+import axios from 'axios';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
+const App = () => {
+  const [data, setData] = useState([])
+  useEffect(() => {
+    axios.get("https://jsonplaceholder.typicode.com/todos/")
+      .then((resp) => {
+        // console.log(resp.data);
+        setData(resp.data)
+      })
 
-function App() {
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src="Octocat.png" className="App-logo" alt="logo" />
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
-        <p className="small">
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
-  );
+    <>
+      <div className='mainComp'>
+        <h1> API DATA </h1>
+      </div>
+      <table
+        border="1px solid"
+        cellSpacing="0"
+        cellPadding="5"
+        style={{ color: "blue", textAlign: "center", marginLeft:"auto",marginRight:"auto",marginTop:"20px",fontFamily:"initial"}}
+      >
+        <tr>
+          <th>UserId</th>
+          <th>Id</th>
+          <th>Title</th>
+        </tr>
+        {data?.slice(0,40).map((item) => {
+          const {userId,id,title} = item
+          return (
+            <>
+              <tr>
+                <td>{id}</td>
+                <td>{userId}</td>
+                <td>{title}</td>
+              </tr>
+            </>
+          );
+        })}
+        ;
+      </table>
+    </>
+  )
 }
 
 export default App;
